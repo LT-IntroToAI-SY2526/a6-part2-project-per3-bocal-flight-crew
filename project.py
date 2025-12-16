@@ -34,13 +34,20 @@ def load_and_explore_data(filename):
     - Print summary statistics
     - Check for missing values
     """
-    print("=" * 70)
-    print("LOADING AND EXPLORING DATA")
-    print("=" * 70)
+
     
-    # Your code here
+    print("=== Ticket Price Data ===")
+    print(f"\nFirst 5 rows:")
+    print(data.head())
+
+    print(f"\nDataset shape: {data.shape[0]} rows, {data.shape[1]} columns")
     
-    pass
+    print(f"\nBasic statistics:")
+    print(data.describe())
+    
+    print(f"\nColumn names: {list(data.columns)}")
+    return data
+    
 
 
 def visualize_data(data):
@@ -57,14 +64,30 @@ def visualize_data(data):
         feature_columns: list of feature column names
         target_column: name of target column
     """
-    print("\n" + "=" * 70)
-    print("VISUALIZING RELATIONSHIPS")
-    print("=" * 70)
+    fig, axes = plt.subplots(2, 2, figsize=(12, 10))
+    fig.suptitle('Flight Features vs Price', fontsize=16, fontweight='bold')
     
+    axes[0, 0].scatter(data['Airline'], data['Price'], color='blue', alpha=0.6)
+    axes[0, 0].set_xlabel('Airline')
+    axes[0, 0].set_ylabel('Price ($)')
+    axes[0, 0].set_title('Airline vs Price')
+    axes[0, 0].grid(True, alpha=0.3)
+
+    axes[0, 1].scatter(data['Duration'], data['Price'], color='green', alpha=0.6)
+    axes[0, 1].set_xlabel('Duration (hours)')
+    axes[0, 1].set_ylabel('Price ($)')
+    axes[0, 1].set_title('Duration vs Price')
+    axes[0, 1].grid(True, alpha=0.3)
+    
+    axes[1, 0].scatter(data['Brand'], data['Price'], color='red', alpha=0.6)
+    axes[1, 0].set_xlabel('Brand (0=Toyota, 1=Honda, 2=Ford)')
+    axes[1, 0].set_ylabel('Price ($)')
+    axes[1, 0].set_title('Brand vs Price')
+    axes[1, 0].grid(True, alpha=0.3)
     # Your code here
     # Hint: Use subplots like in Part 2!
     
-    pass
+    
 
 
 def prepare_and_split_data(data):
