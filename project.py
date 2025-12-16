@@ -73,17 +73,17 @@ def visualize_data(data):
     axes[0, 0].set_title('Airline vs Price')
     axes[0, 0].grid(True, alpha=0.3)
 
-    axes[0, 1].scatter(data['Duration'], data['Price'], color='green', alpha=0.6)
-    axes[0, 1].set_xlabel('Duration (hours)')
-    axes[0, 1].set_ylabel('Price ($)')
-    axes[0, 1].set_title('Duration vs Price')
-    axes[0, 1].grid(True, alpha=0.3)
-    
     axes[1, 0].scatter(data['Dep_Time'], data['Price'], color='red', alpha=0.6)
     axes[1, 0].set_xlabel('Dep_Time (O clock)')
     axes[1, 0].set_ylabel('Price ($)')
     axes[1, 0].set_title('Dep_Time vs Price')
     axes[1, 0].grid(True, alpha=0.3)
+
+    axes[0, 1].scatter(data['Duration'], data['Price'], color='green', alpha=0.6)
+    axes[0, 1].set_xlabel('Duration (hours)')
+    axes[0, 1].set_ylabel('Price ($)')
+    axes[0, 1].set_title('Duration vs Price')
+    axes[0, 1].grid(True, alpha=0.3)
 
     axes[1, 1].text(0.5, 0.5, 'Space for additional features', 
                     ha='center', va='center', fontsize=12)
@@ -121,16 +121,18 @@ def prepare_and_split_data(data):
     print("=" * 70)
     
     feature_columns = ['Airline', 'Duration', 'Dep_Time']
-    X = data[feature_columns]
+    x = data[feature_columns]
     y = data['Price']
 
     print(f"\n=== Feature Preparation ===")
-    print(f"Features (X) shape: {X.shape}")
+    print(f"Features (x) shape: {x.shape}")
     print(f"Target (y) shape: {y.shape}")
-    print(f"\nFeature columns: {list(X.columns)}")
+    print(f"\nFeature columns: {list(x.columns)}")
+
+    return x,y
     # Your code here
     
-    pass
+    
 
 
 def train_model(X_train, y_train):
