@@ -3,14 +3,14 @@ Multivariable Linear Regression Project
 Assignment 6 Part 3
 
 Group Members:
-- 
-- 
+- Bobby
+- Caleb
 - 
 - 
 
-Dataset: [Name of your dataset]
-Predicting: [What you're predicting]
-Features: [List your features]
+Dataset: Plane Ticket Prices in india
+Predicting: Trends over airlines/time
+Features: Airline, Departure time , and Duration
 """
 
 import pandas as pd
