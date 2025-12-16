@@ -21,7 +21,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 import numpy as np
 
 # TODO: Update this with your actual filename
-DATA_FILE = 'your_data.csv'
+DATA_FILE = 'Data_Train.csv'
 
 def load_and_explore_data(filename):
     """
@@ -34,7 +34,7 @@ def load_and_explore_data(filename):
     - Print summary statistics
     - Check for missing values
     """
-
+    data = pd.read_csv(filename)
     
     print("=== Ticket Price Data ===")
     print(f"\nFirst 5 rows:")
@@ -79,11 +79,20 @@ def visualize_data(data):
     axes[0, 1].set_title('Duration vs Price')
     axes[0, 1].grid(True, alpha=0.3)
     
-    axes[1, 0].scatter(data['Brand'], data['Price'], color='red', alpha=0.6)
-    axes[1, 0].set_xlabel('Brand (0=Toyota, 1=Honda, 2=Ford)')
+    axes[1, 0].scatter(data['Dep_Time'], data['Price'], color='red', alpha=0.6)
+    axes[1, 0].set_xlabel('Dep_Time (O clock)')
     axes[1, 0].set_ylabel('Price ($)')
-    axes[1, 0].set_title('Brand vs Price')
+    axes[1, 0].set_title('Dep_Time vs Price')
     axes[1, 0].grid(True, alpha=0.3)
+
+    axes[1, 1].text(0.5, 0.5, 'Space for additional features', 
+                    ha='center', va='center', fontsize=12)
+    axes[1, 1].axis('off')
+
+    plt.tight_layout()
+    plt.savefig('Flight_features.png', dpi=300, bbox_inches='tight')
+    print("\n✓ Feature plots saved as 'Flight_features.png'")
+    plt.show()
     # Your code here
     # Hint: Use subplots like in Part 2!
     
