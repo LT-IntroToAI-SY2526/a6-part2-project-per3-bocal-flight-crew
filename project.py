@@ -120,6 +120,14 @@ def prepare_and_split_data(data):
     print("PREPARING AND SPLITTING DATA")
     print("=" * 70)
     
+    feature_columns = ['Airline', 'Duration', 'Dep_Time']
+    X = data[feature_columns]
+    y = data['Price']
+
+    print(f"\n=== Feature Preparation ===")
+    print(f"Features (X) shape: {X.shape}")
+    print(f"Target (y) shape: {y.shape}")
+    print(f"\nFeature columns: {list(X.columns)}")
     # Your code here
     
     pass
