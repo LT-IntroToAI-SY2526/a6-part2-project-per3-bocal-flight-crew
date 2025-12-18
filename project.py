@@ -93,11 +93,6 @@ def visualize_data(data):
     plt.savefig('Flight_features.png', dpi=300, bbox_inches='tight')
     print("\n✓ Feature plots saved as 'Flight_features.png'")
     plt.show()
-    # Your code here
-    # Hint: Use subplots like in Part 2!
-    
-    
-
 
 def prepare_and_split_data(data):
     """
@@ -121,21 +116,32 @@ def prepare_and_split_data(data):
     print("=" * 70)
     
     feature_columns = ['Airline', 'Duration', 'Dep_Time']
-    x = data[feature_columns]
+    X = data[feature_columns]
     y = data['Price']
 
     print(f"\n=== Feature Preparation ===")
-    print(f"Features (x) shape: {x.shape}")
+    print(f"Features (x) shape: {X.shape}")
     print(f"Target (y) shape: {y.shape}")
-    print(f"\nFeature columns: {list(x.columns)}")
+    print(f"\nFeature columns: {list(X.columns)}")
 
-    return x,y
-    # Your code here
+    return X,y
     
+def split_data(X, y):
+    
+    X_train = X.iloc[:15]  
+    X_test = X.iloc[15:]   
+    y_train = y.iloc[:15]
+    y_test = y.iloc[15:]
+    
+    print(f"\n=== Data Split (Matching Unplugged Activity) ===")
+    print(f"Training set: {len(X_train)} ")
+    print(f"Testing set: {len(X_test)} ")
+    print(f"\nNOTE: We're NOT scaling features here so coefficients are easy to interpret!")
+    
+    return X_train, X_test, y_train, y_test
     
 
-
-def train_model(X_train, y_train):
+def train_model(X_train, y_train, feature_names):
     """
     Train the linear regression model
     
@@ -156,12 +162,28 @@ def train_model(X_train, y_train):
     print("TRAINING MODEL")
     print("=" * 70)
     
-    # Your code here
+    model = LinearRegression()
+    model.fit(X_train, y_train)
     
-    pass
+    print(f"\n=== Model Training Complete ===")
+    print(f"Intercept: ${model.intercept_:.2f}")
+    print(f"\nCoefficients:")
+    for name, coef in zip(feature_names, model.coef_):
+        print(f"  {name}: {coef:.2f}")
+    
+    print(f"\nEquation:")
+    equation = f"Price = "
+    for i, (name, coef) in enumerate(zip(feature_names, model.coef_)):
+        if i == 0:
+            equation += f"{coef:.2f} × {name}"
+        else:
+            equation += f" + ({coef:.2f}) × {name}"
+    equation += f" + {model.intercept_:.2f}"
+    print(equation)
 
+    return model
 
-def evaluate_model(model, X_test, y_test):
+def evaluate_model(model, X_test, y_test, feature_names):
     """
     Evaluate model performance
     
@@ -184,9 +206,28 @@ def evaluate_model(model, X_test, y_test):
     print("EVALUATING MODEL")
     print("=" * 70)
     
-    # Your code here
+    predictions = model.predict(X_test)
     
-    pass
+    r2 = r2_score(y_test, predictions)
+    mse = mean_squared_error(y_test, predictions)
+    rmse = np.sqrt(mse)
+    
+    print(f"\n=== Model Performance ===")
+    print(f"R² Score: {r2:.4f}")
+    print(f"  → Model explains {r2*100:.2f}% of price variation")
+    
+    print(f"\nRoot Mean Squared Error: ${rmse:.2f}")
+    print(f"  → On average, predictions are off by ${rmse:.2f}")
+    
+    # Feature importance (absolute value of coefficients)
+    print(f"\n=== Feature Importance ===")
+    feature_importance = list(zip(feature_names, np.abs(model.coef_)))
+    feature_importance.sort(key=lambda x: x[1], reverse=True)
+    
+    for i, (name, importance) in enumerate(feature_importance, 1):
+        print(f"{i}. {name}: {importance:.2f}")
+    
+    return predictions
 
 
 def make_prediction(model):
@@ -206,11 +247,7 @@ def make_prediction(model):
     print("EXAMPLE PREDICTION")
     print("=" * 70)
     
-    # Your code here
-    # Example: If predicting house price with [sqft, bedrooms, bathrooms]
-    # sample = pd.DataFrame([[2000, 3, 2]], columns=feature_names)
     
-    pass
 
 
 if __name__ == "__main__":
